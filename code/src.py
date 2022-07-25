@@ -7,6 +7,8 @@ from pathlib import Path
 import importlib
 
 from alive_progress import alive_bar
+from apex import amp
+from apex.amp.frontend import O3
 from torchvision.models import resnet50, ResNet50_Weights
 from torch.utils.data import Dataset, DataLoader
 
@@ -76,12 +78,11 @@ def imshow(img, text=None, should_save=False):  # for showing the data you loade
 
 def show_plot(iteration, loss):  # for showing loss value changed with iter
   plt.plot(iteration, loss)
+  plt.savefig('../resources/acc_train_wo_amp.png')
   plt.show()
-
 
 # F09xx are used for validation.
 val_famillies = "F09"
-
 
 def prepare_train_data():
   # An example of data:"../input/train/F00002/MID1/P0001_face1.jpg"
@@ -133,7 +134,7 @@ def prepare_train_data():
                          num_workers=LOADER_WORER_NUMBER,
                          batch_size=BATCH_SIZE)
 
-  print(f'[trace] define visual dataset loader')
+  #print(f'[trace] define visual dataset loader')
   vis_dataloader = DataLoader(trainset,
                               shuffle=True,
                               num_workers=LOADER_WORER_NUMBER,
@@ -143,16 +144,20 @@ def prepare_train_data():
   example_batch = next(dataiter)
   concatenated = torch.cat((example_batch[0], example_batch[1]), 0)
   #imshow(torchvision.utils.make_grid(concatenated))
-  print(example_batch[2].numpy())
+  #print(example_batch[2].numpy())
 
   return [trainloader, valloader, vis_dataloader]
 
 def train(trainloader, valloader, vis_dataloader):
 
-  print(f'[trace] exec at the train func')
-  net = SiameseNetwork().cuda()
+  print(f'[trace] exec at the train func[w/o apex]')
+  model = SiameseNetwork().cuda()
   criterion = nn.CrossEntropyLoss()  # use a Classification Cross-Entropy loss
-  optimizer = optim.SGD(net.parameters(), lr=0.001, momentum=0.9)
+  optimizer = optim.SGD(model.parameters(), lr=0.001, momentum=0.9)
+
+  #prepare for the apex training
+  opt_level = 'O3'
+  #model, optimizer = amp.initialize(model, optimizer, opt_level=opt_level)
 
   counter = []
   loss_history = []
@@ -160,9 +165,13 @@ def train(trainloader, valloader, vis_dataloader):
 
   best_accuracy = -float('inf')
   print(f'[trace] exec in the train function')
+  import time
+  time_epochs = []
   for epoch in range(0, NUMBER_EPOCHS):
     print("Epoch：", epoch, " start.")
     with alive_bar(len(trainloader), dual_line=True, title='trainloader') as bar:
+
+      this_time_epoch = 0
       for i, data in enumerate(trainloader, 0):
         bar.text = f'[trace] epoch {epoch} index {i}/{len(trainloader)}: training'
         bar()
@@ -170,17 +179,29 @@ def train(trainloader, valloader, vis_dataloader):
         img0, img1, labels = data  # img=tensor[batch_size,channels,width,length], label=tensor[batch_size,label]
         img0, img1, labels = img0.cuda(), img1.cuda(), labels.cuda()  # move to GPU
         # print("epoch：", epoch, "No." , i, "th inputs", img0.data.size(), "labels", labels.data.size())
+
+        start_epoch = time.time()
         optimizer.zero_grad()  # clear the calculated grad in previous batch
-        outputs = net(img0, img1)
+        outputs = model(img0, img1)
         loss = criterion(outputs, labels)
+
+        #with amp.scale_loss(loss, optimizer) as scaled_loss:
+        #  scaled_loss.backward()
         loss.backward()
         optimizer.step()
+
+        end_epoch = time.time()
+        this_time_epoch += end_epoch - start_epoch
 
         if i % 10 == 0:  # show changes of loss value after each 10 batches
           # print("Epoch number {}\n Current loss {}\n".format(epoch,loss.item()))
           iteration_number += 10
           counter.append(iteration_number)
           loss_history.append(loss.item())
+
+
+    print(f'[trace] time used in this epoch {this_time_epoch} seconds')
+    time_epochs.append(this_time_epoch)
 
     # test the network after finish each epoch, to have a brief training result.
     print(f'[trace] start to validate')
@@ -194,11 +215,10 @@ def train(trainloader, valloader, vis_dataloader):
 
           img0, img1, labels = data
           img0, img1, labels = img0.cuda(), img1.cuda(), labels.cuda()
-          outputs = net(img0, img1)
+          outputs = model(img0, img1)
           _, predicted = torch.max(outputs.data, 1)
           total_val += labels.size(0)
           correct_val += (predicted == labels).sum().item()
-
 
     accuracy = (100 * correct_val / total_val)
     print('Accuracy of the network on the', total_val, 'val pairs in', val_famillies,
@@ -208,8 +228,9 @@ def train(trainloader, valloader, vis_dataloader):
       best_accuracy = accuracy
       path = f'../models/net_epoch_{epoch}.pt'
       print(f'[trace] better model found, saving model to {path}')
-      torch.save(net.state_dict(), path)
+      torch.save(model.state_dict(), path)
 
+  print(f'[trace] time used in each epoch: {time_epochs}')
   print(f'[trace] end of the train function')
   pass
 
