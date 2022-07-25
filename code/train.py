@@ -59,12 +59,10 @@ import sys
 from glob import glob
 from PIL import Image
 
-from utils import trainingDataset, SiameseNetwork
+from utility import trainingDataset, SiameseNetwork, prepare_train_data
 
-BATCH_SIZE = 64
 NUMBER_EPOCHS = 50
-IMG_SIZE = 100
-LOADER_WORER_NUMBER = 1
+
 
 def imshow(img, text=None, should_save=False):  # for showing the data you loaded to dataloader
   npimg = img.numpy()
@@ -82,74 +80,9 @@ def show_plot(iteration, loss):  # for showing loss value changed with iter
   plt.show()
 
 # F09xx are used for validation.
-val_famillies = "F09"
-
-def prepare_train_data():
-  # An example of data:"../input/train/F00002/MID1/P0001_face1.jpg"
-  all_images = glob("../data/train/*/*/*.jpg")
-  train_images = [x for x in all_images if val_famillies not in x]
-  val_images = [x for x in all_images if val_famillies in x]
-  train_person_to_images_map = defaultdict(
-    list)  # Put the link of each picture under the key word of a person such as "F0002/MID1"
-  for x in train_images:
-    train_person_to_images_map[x.split("/")[-3] + "/" + x.split("/")[-2]].append(x)
-
-  val_person_to_images_map = defaultdict(list)
-  for x in val_images:
-    val_person_to_images_map[x.split("/")[-3] + "/" + x.split("/")[-2]].append(x)
-
-  ppl = [x.split("/")[-3] + "/" + x.split("/")[-2] for x in all_images]
-  relationships = pd.read_csv("../data/train_relationships.csv")
-  relationships = list(zip(relationships.p1.values,
-                           relationships.p2.values))  # For a List like[p1 p2], zip can return a result like [(p1[0],p2[0]),(p1[1],p2[1]),...]
-  relationships = [x for x in relationships if x[0] in ppl and x[1] in ppl]  # filter unused relationships
-
-  train = [x for x in relationships if val_famillies not in x[0]]
-  val = [x for x in relationships if val_famillies in x[0]]
-
-  print("Total train pairs:", len(train))
-  print("Total val pairs:", len(val))
-
-  folder_dataset = dset.ImageFolder(root='../data/train')
-  print(f'[trace] define train dataset loader')
-  trainset = trainingDataset(imageFolderDataset=folder_dataset,
-                             relationships=train,
-                             transform=transforms.Compose([transforms.Resize((IMG_SIZE, IMG_SIZE)),
-                                                           transforms.ToTensor()
-                                                           ]))
-  trainloader = DataLoader(trainset,
-                           shuffle=True,
-                           # whether randomly shuffle data in each epoch, but cannot let data in one batch in order.
-                           num_workers=LOADER_WORER_NUMBER,
-                           batch_size=BATCH_SIZE)
-
-  print(f'[trace] define validation dataset loader')
-  valset = trainingDataset(imageFolderDataset=folder_dataset,
-                           relationships=val,
-                           transform=transforms.Compose([transforms.Resize((IMG_SIZE, IMG_SIZE)),
-                                                         transforms.ToTensor()
-                                                         ]))
-  valloader = DataLoader(valset,
-                         shuffle=True,
-                         num_workers=LOADER_WORER_NUMBER,
-                         batch_size=BATCH_SIZE)
-
-  #print(f'[trace] define visual dataset loader')
-  vis_dataloader = DataLoader(trainset,
-                              shuffle=True,
-                              num_workers=LOADER_WORER_NUMBER,
-                              batch_size=8)
-  dataiter = iter(vis_dataloader)
-
-  example_batch = next(dataiter)
-  concatenated = torch.cat((example_batch[0], example_batch[1]), 0)
-  #imshow(torchvision.utils.make_grid(concatenated))
-  #print(example_batch[2].numpy())
-
-  return [trainloader, valloader, vis_dataloader]
-
 def train(trainloader, valloader, vis_dataloader):
 
+  import utility
   print(f'[trace] exec at the train func[w/o apex]')
   model = SiameseNetwork().cuda()
   criterion = nn.CrossEntropyLoss()  # use a Classification Cross-Entropy loss
@@ -182,6 +115,14 @@ def train(trainloader, valloader, vis_dataloader):
 
         start_epoch = time.time()
         optimizer.zero_grad()  # clear the calculated grad in previous batch
+
+        '''
+        # debug purpose
+        print(f'[trace] torch.size: img0: {img0.size()}')
+        print(f'[trace] torch.size: img1: {img1.size()}')
+        exit(0)
+        '''
+
         outputs = model(img0, img1)
         loss = criterion(outputs, labels)
 
@@ -221,7 +162,7 @@ def train(trainloader, valloader, vis_dataloader):
           correct_val += (predicted == labels).sum().item()
 
     accuracy = (100 * correct_val / total_val)
-    print('Accuracy of the network on the', total_val, 'val pairs in', val_famillies,
+    print('Accuracy of the network on the', total_val, 'val pairs in', utility.val_famillies,
           ': %d %%' % (100 * correct_val / total_val))
     show_plot(counter, loss_history)
     if accuracy > best_accuracy:

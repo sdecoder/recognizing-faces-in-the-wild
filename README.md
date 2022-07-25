@@ -419,71 +419,72 @@ https://www.techpowerup.com/gpu-specs/tesla-m40-24-gb.c3838
 1. for the INT8 throughput:
 
 ```shell
-trtexec --loadEngine=classifier-sim.INT8.engine --batch=8192 --streams=8 --verbose --avgRuns=10
-[07/25/2022-19:02:56] [I] === Performance summary ===
-[07/25/2022-19:02:56] [I] Throughput: 2.54521e+06 qps
-[07/25/2022-19:02:56] [I] Latency: min = 9.47876 ms, max = 51.4163 ms, mean = 16.5801 ms, median = 11.6239 ms, percentile(99%) = 47.6256 ms
-[07/25/2022-19:02:56] [I] Enqueue Time: min = 0.00854492 ms, max = 0.0578613 ms, mean = 0.012563 ms, median = 0.00976562 ms, percentile(99%) = 0.0471191 ms
-[07/25/2022-19:02:56] [I] H2D Latency: min = 3.12537 ms, max = 44.6831 ms, mean = 9.18409 ms, median = 4.26877 ms, percentile(99%) = 40.4702 ms
-[07/25/2022-19:02:56] [I] GPU Compute Time: min = 5.99756 ms, max = 9.45909 ms, mean = 7.35231 ms, median = 7.1825 ms, percentile(99%) = 9.2168 ms
-[07/25/2022-19:02:56] [I] D2H Latency: min = 0.00561523 ms, max = 0.0736084 ms, mean = 0.0437097 ms, median = 0.0429077 ms, percentile(99%) = 0.0670166 ms
-[07/25/2022-19:02:56] [I] Total Host Walltime: 3.07697 s
-[07/25/2022-19:02:56] [I] Total GPU Compute Time: 7.02881 s
-[07/25/2022-19:02:56] [W] * GPU compute time is unstable, with coefficient of variance = 7.58229%.
-[07/25/2022-19:02:56] [W]   If not already in use, locking GPU clock frequency or adding --useSpinWait may improve the stability.
-[07/25/2022-19:02:56] [I] Explanations of the performance metrics are printed in the verbose logs.
+trtexec --loadEngine=siamese_network.INT8.engine --batch=1024 --streams=32 --verbose --avgRuns=16
+[07/25/2022-23:41:34] [I] Throughput: 17990.4 qps
+[07/25/2022-23:41:34] [I] Latency: min = 125.305 ms, max = 591.657 ms, mean = 436.587 ms, median = 457.4 ms, percentile(99%) = 583.968 ms
+[07/25/2022-23:41:34] [I] Enqueue Time: min = 0.0322266 ms, max = 0.111816 ms, mean = 0.0368327 ms, median = 0.0351562 ms, percentile(99%) = 0.108032 ms
+[07/25/2022-23:41:34] [I] H2D Latency: min = 5.15454 ms, max = 128.347 ms, mean = 11.8364 ms, median = 5.2063 ms, percentile(99%) = 128.274 ms
+[07/25/2022-23:41:34] [I] GPU Compute Time: min = 120.107 ms, max = 518.805 ms, mean = 424.731 ms, median = 451.014 ms, percentile(99%) = 498.792 ms
+[07/25/2022-23:41:34] [I] D2H Latency: min = 0.00488281 ms, max = 0.0761719 ms, mean = 0.0197522 ms, median = 0.015625 ms, percentile(99%) = 0.069458 ms
+[07/25/2022-23:41:34] [I] Total Host Walltime: 17.9865 s
+[07/25/2022-23:41:34] [I] Total GPU Compute Time: 134.215 s
+[07/25/2022-23:41:34] [W] * GPU compute time is unstable, with coefficient of variance = 20.2126%.
+[07/25/2022-23:41:34] [W]   If not already in use, locking GPU clock frequency or adding --useSpinWait may improve the stability.
+[07/25/2022-23:41:34] [I] Explanations of the performance metrics are printed in the verbose logs.
 ```
 
 2. for the FP16 throughput:
 
 ```shell
-trtexec --loadEngine=classifier-sim.FP16.engine --batch=8192 --streams=8 --verbose --avgRuns=10
-[07/25/2022-19:03:30] [I] Throughput: 2.5563e+06 qps
-[07/25/2022-19:03:30] [I] Latency: min = 9.49252 ms, max = 52.554 ms, mean = 16.9202 ms, median = 12.3535 ms, percentile(99%) = 47.1478 ms
-[07/25/2022-19:03:30] [I] Enqueue Time: min = 0.0170898 ms, max = 0.116455 ms, mean = 0.0237389 ms, median = 0.0185547 ms, percentile(99%) = 0.0854492 ms
-[07/25/2022-19:03:30] [I] H2D Latency: min = 3.13013 ms, max = 45.7395 ms, mean = 9.50471 ms, median = 4.79257 ms, percentile(99%) = 40.3545 ms
-[07/25/2022-19:03:30] [I] GPU Compute Time: min = 5.99194 ms, max = 9.51074 ms, mean = 7.37206 ms, median = 7.18329 ms, percentile(99%) = 9.13654 ms
-[07/25/2022-19:03:30] [I] D2H Latency: min = 0.00585938 ms, max = 0.0742798 ms, mean = 0.0433958 ms, median = 0.0419922 ms, percentile(99%) = 0.0671387 ms
-[07/25/2022-19:03:30] [I] Total Host Walltime: 3.05081 s
-[07/25/2022-19:03:30] [I] Total GPU Compute Time: 7.0182 s
-[07/25/2022-19:03:30] [W] * GPU compute time is unstable, with coefficient of variance = 7.65987%.
-[07/25/2022-19:03:30] [W]   If not already in use, locking GPU clock frequency or adding --useSpinWait may improve the stability.
-[07/25/2022-19:03:30] [I] Explanations of the performance metrics are printed in the verbose logs.
+trtexec --loadEngine=siamese_network.FP16.engine --batch=1024 --streams=32 --verbose --avgRuns=16
+[07/25/2022-23:42:50] [I] Throughput: 17836.3 qps
+[07/25/2022-23:42:50] [I] Latency: min = 141.965 ms, max = 591.346 ms, mean = 441.273 ms, median = 461.8 ms, percentile(99%) = 586.311 ms
+[07/25/2022-23:42:50] [I] Enqueue Time: min = 0.0312753 ms, max = 0.112305 ms, mean = 0.0365971 ms, median = 0.0341797 ms, percentile(99%) = 0.108398 ms
+[07/25/2022-23:42:50] [I] H2D Latency: min = 4.97278 ms, max = 128.81 ms, mean = 11.8821 ms, median = 5.21436 ms, percentile(99%) = 128.547 ms
+[07/25/2022-23:42:50] [I] GPU Compute Time: min = 136.726 ms, max = 540.65 ms, mean = 429.371 ms, median = 454.791 ms, percentile(99%) = 512.942 ms
+[07/25/2022-23:42:50] [I] D2H Latency: min = 0.00585938 ms, max = 0.074585 ms, mean = 0.0199895 ms, median = 0.0159912 ms, percentile(99%) = 0.0653687 ms
+[07/25/2022-23:42:50] [I] Total Host Walltime: 18.1418 s
+[07/25/2022-23:42:50] [I] Total GPU Compute Time: 135.681 s
+[07/25/2022-23:42:50] [W] * GPU compute time is unstable, with coefficient of variance = 20.0353%.
+[07/25/2022-23:42:50] [W]   If not already in use, locking GPU clock frequency or adding --useSpinWait may improve the stability.
+[07/25/2022-23:42:50] [I] Explanations of the performance metrics are printed in the verbose logs.
+
 ```
 
 3. for the TF32 throughput:
 
 ```shell
-trtexec --loadEngine=classifier-sim.TF32.engine --batch=8192 --streams=8 --verbose --avgRuns=10
- [07/25/2022-19:03:57] [I] Throughput: 2.5548e+06 qps
-[07/25/2022-19:03:57] [I] Latency: min = 9.12402 ms, max = 53.5422 ms, mean = 16.5924 ms, median = 11.104 ms, percentile(99%) = 46.9604 ms
-[07/25/2022-19:03:57] [I] Enqueue Time: min = 0.00976562 ms, max = 0.0761719 ms, mean = 0.0148766 ms, median = 0.0108643 ms, percentile(99%) = 0.0613403 ms
-[07/25/2022-19:03:57] [I] H2D Latency: min = 3.11755 ms, max = 46.7709 ms, mean = 9.2178 ms, median = 3.23969 ms, percentile(99%) = 39.5508 ms
-[07/25/2022-19:03:57] [I] GPU Compute Time: min = 5.94873 ms, max = 12.0564 ms, mean = 7.33046 ms, median = 7.1571 ms, percentile(99%) = 9.20398 ms
-[07/25/2022-19:03:57] [I] D2H Latency: min = 0.00537109 ms, max = 0.0720215 ms, mean = 0.0441205 ms, median = 0.0429688 ms, percentile(99%) = 0.0669861 ms
-[07/25/2022-19:03:57] [I] Total Host Walltime: 3.0526 s
-[07/25/2022-19:03:57] [I] Total GPU Compute Time: 6.97859 s
-[07/25/2022-19:03:57] [W] * GPU compute time is unstable, with coefficient of variance = 7.52974%.
-[07/25/2022-19:03:57] [W]   If not already in use, locking GPU clock frequency or adding --useSpinWait may improve the stability.
-[07/25/2022-19:03:57] [I] Explanations of the performance metrics are printed in the verbose logs.
-[07/25/2022-19:03:57] [V] 
+trtexec --loadEngine=siamese_network.TF32.engine --batch=1024 --streams=32 --verbose --avgRuns=16
+[07/25/2022-23:44:04] [I] Throughput: 17790.6 qps
+[07/25/2022-23:44:04] [I] Latency: min = 157.068 ms, max = 610.103 ms, mean = 441.194 ms, median = 462.976 ms, percentile(99%) = 589.87 ms
+[07/25/2022-23:44:04] [I] Enqueue Time: min = 0.03125 ms, max = 0.116211 ms, mean = 0.0366031 ms, median = 0.0341797 ms, percentile(99%) = 0.103027 ms
+[07/25/2022-23:44:04] [I] H2D Latency: min = 5.16016 ms, max = 130.113 ms, mean = 11.9496 ms, median = 5.20874 ms, percentile(99%) = 128.493 ms
+[07/25/2022-23:44:04] [I] GPU Compute Time: min = 150.438 ms, max = 528.749 ms, mean = 429.226 ms, median = 455.411 ms, percentile(99%) = 507.489 ms
+[07/25/2022-23:44:04] [I] D2H Latency: min = 0.00585938 ms, max = 0.0695801 ms, mean = 0.018364 ms, median = 0.015625 ms, percentile(99%) = 0.0638428 ms
+[07/25/2022-23:44:04] [I] Total Host Walltime: 18.1885 s
+[07/25/2022-23:44:04] [I] Total GPU Compute Time: 135.635 s
+[07/25/2022-23:44:04] [W] * GPU compute time is unstable, with coefficient of variance = 20.0225%.
+[07/25/2022-23:44:04] [W]   If not already in use, locking GPU clock frequency or adding --useSpinWait may improve the stability.
+[07/25/2022-23:44:04] [I] Explanations of the performance metrics are printed in the verbose logs.
+
 ```
 
 4. for the FP32 throughput:
 
 ```shell
-trtexec --loadEngine=classifier-sim.FP32.engine --batch=8192 --streams=8 --verbose --avgRuns=10
- [07/25/2022-19:04:18] [I] Throughput: 2.54996e+06 qps
-[07/25/2022-19:04:18] [I] Latency: min = 9.11011 ms, max = 56.7799 ms, mean = 16.7815 ms, median = 11.3374 ms, percentile(99%) = 47.455 ms
-[07/25/2022-19:04:18] [I] Enqueue Time: min = 0.0098877 ms, max = 0.0678711 ms, mean = 0.0148348 ms, median = 0.0112305 ms, percentile(99%) = 0.0598145 ms
-[07/25/2022-19:04:18] [I] H2D Latency: min = 3.12762 ms, max = 49.9872 ms, mean = 9.40668 ms, median = 4.24805 ms, percentile(99%) = 40.4771 ms
-[07/25/2022-19:04:18] [I] GPU Compute Time: min = 5.95483 ms, max = 10.9875 ms, mean = 7.3315 ms, median = 7.17285 ms, percentile(99%) = 9.1684 ms
-[07/25/2022-19:04:18] [I] D2H Latency: min = 0.00561523 ms, max = 0.0722656 ms, mean = 0.0433322 ms, median = 0.0424805 ms, percentile(99%) = 0.0668182 ms
-[07/25/2022-19:04:18] [I] Total Host Walltime: 3.06161 s
-[07/25/2022-19:04:18] [I] Total GPU Compute Time: 6.98692 s
-[07/25/2022-19:04:18] [W] * GPU compute time is unstable, with coefficient of variance = 7.28868%.
-[07/25/2022-19:04:18] [W]   If not already in use, locking GPU clock frequency or adding --useSpinWait may improve the stability.
-[07/25/2022-19:04:18] [I] Explanations of the performance metrics are printed in the verbose logs.
+trtexec --loadEngine=siamese_network.FP32.engine --batch=1024 --streams=32 --verbose --avgRuns=16
+[07/25/2022-23:44:54] [I] Throughput: 17802 qps
+[07/25/2022-23:44:54] [I] Latency: min = 148.669 ms, max = 609.335 ms, mean = 440.522 ms, median = 463.186 ms, percentile(99%) = 591.964 ms
+[07/25/2022-23:44:54] [I] Enqueue Time: min = 0.0316539 ms, max = 0.118164 ms, mean = 0.036653 ms, median = 0.0341797 ms, percentile(99%) = 0.100342 ms
+[07/25/2022-23:44:54] [I] H2D Latency: min = 5.16895 ms, max = 128.896 ms, mean = 11.7314 ms, median = 5.22095 ms, percentile(99%) = 128.769 ms
+[07/25/2022-23:44:54] [I] GPU Compute Time: min = 143.43 ms, max = 521.862 ms, mean = 428.771 ms, median = 456.87 ms, percentile(99%) = 496.774 ms
+[07/25/2022-23:44:54] [I] D2H Latency: min = 0.00390625 ms, max = 0.0810547 ms, mean = 0.0191196 ms, median = 0.015625 ms, percentile(99%) = 0.0683594 ms
+[07/25/2022-23:44:54] [I] Total Host Walltime: 18.1768 s
+[07/25/2022-23:44:54] [I] Total GPU Compute Time: 135.492 s
+[07/25/2022-23:44:54] [W] * GPU compute time is unstable, with coefficient of variance = 20.0761%.
+[07/25/2022-23:44:54] [W]   If not already in use, locking GPU clock frequency or adding --useSpinWait may improve the stability.
+[07/25/2022-23:44:54] [I] Explanations of the performance metrics are printed in the verbose logs.
+
 ```
 
 ### Accuracy evaluation
