@@ -1,0 +1,27 @@
+name: "recognizing-faces-in-the-wild-int8"
+platform: "tensorrt_plan"
+max_batch_size: 32
+
+input [
+  {
+    name: "input0"
+    data_type: TYPE_FP32
+    format: FORMAT_NCHW
+    dims: [ 3,100,100 ]
+  },
+  {
+    name: "input1"
+    data_type: TYPE_FP32
+    format: FORMAT_NCHW
+    dims: [ 3,100,100 ]
+  }
+]
+output [
+  {
+    name: "output"
+    data_type: TYPE_FP32
+    dims: [ 2 ]
+  }
+]
+
+instance_group [ { kind: KIND_GPU }]
