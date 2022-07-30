@@ -125,222 +125,20 @@ Software platform:
 
 ### Model training
 
-The model structure 
+The model structure
 This model is trained using Pytorch ROCm with NVIDIA/apex.
 After training, the weight is saved to the .pt file.
 
-Running time:
+Running time(average on 25 training epochs):
 
-Trainning without AMP
-[trace] time used in this epoch 6.634409189224243 seconds
-[trace] time used in this epoch 1.3301661014556885 seconds
-[trace] time used in this epoch 1.323930025100708 seconds
-[trace] time used in this epoch 1.3494598865509033 seconds
-[trace] time used in this epoch 1.3399038314819336 seconds
-[trace] time used in this epoch 1.3358039855957031 seconds
-[trace] time used in this epoch 1.3477783203125 seconds
-[trace] time used in this epoch 1.3603451251983643 seconds
-[trace] time used in this epoch 1.360478401184082 seconds
-[trace] time used in this epoch 1.3517110347747803 seconds
-[trace] time used in this epoch 1.3564984798431396 seconds
-[trace] time used in this epoch 1.3683054447174072 seconds
-[trace] time used in this epoch 1.369154691696167 seconds
-[trace] time used in this epoch 1.3670225143432617 seconds
-[trace] time used in this epoch 1.3652846813201904 seconds
-[trace] time used in this epoch 1.3654561042785645 seconds
-[trace] time used in this epoch 1.3748228549957275 seconds
-[trace] time used in this epoch 1.364091396331787 seconds
-[trace] time used in this epoch 1.3665950298309326 seconds
-[trace] time used in this epoch 1.3685402870178223 seconds
-[trace] time used in this epoch 1.3671445846557617 seconds
-[trace] time used in this epoch 1.372067928314209 seconds
-[trace] time used in this epoch 1.370028018951416 seconds
-[trace] time used in this epoch 1.3748390674591064 seconds
-[trace] time used in this epoch 1.375286340713501 seconds
-[trace] time used in this epoch 1.3697304725646973 seconds
-[trace] time used in this epoch 1.398820161819458 seconds
-[trace] time used in this epoch 1.3707504272460938 seconds
-[trace] time used in this epoch 1.3610777854919434 seconds
-[trace] time used in this epoch 1.3729043006896973 seconds
-[trace] time used in this epoch 1.383105754852295 seconds
-[trace] time used in this epoch 1.3555278778076172 seconds
-[trace] time used in this epoch 1.3690969944000244 seconds
-[trace] time used in this epoch 1.3772199153900146 seconds
-[trace] time used in this epoch 1.3778338432312012 seconds
-[trace] time used in this epoch 1.3593189716339111 seconds
-[trace] time used in this epoch 1.3616642951965332 seconds
-[trace] time used in this epoch 1.3704464435577393 seconds
-[trace] time used in this epoch 1.3668551445007324 seconds
-[trace] time used in this epoch 1.3576271533966064 seconds
-[trace] time used in this epoch 1.3678004741668701 seconds
-[trace] time used in this epoch 1.3751931190490723 seconds
-[trace] time used in this epoch 1.3720118999481201 seconds
-[trace] time used in this epoch 1.3674342632293701 seconds
-[trace] time used in this epoch 1.3678669929504395 seconds
-[trace] time used in this epoch 1.3703551292419434 seconds
-[trace] time used in this epoch 1.3690505027770996 seconds
-[trace] time used in this epoch 1.365992784500122 seconds
-[trace] time used in this epoch 1.3784120082855225 seconds
-[trace] time used in this epoch 1.3728742599487305 seconds
-
-Training with AMP
-[trace] time used in this epoch 9.251776933670044 seconds
-[trace] time used in this epoch 0.8116748332977295 seconds
-[trace] time used in this epoch 0.8186578750610352 seconds
-[trace] time used in this epoch 0.8222758769989014 seconds
-[trace] time used in this epoch 0.8212976455688477 seconds
-[trace] time used in this epoch 0.8170416355133057 seconds
-[trace] time used in this epoch 0.8280124664306641 seconds
-[trace] time used in this epoch 0.8333816528320312 seconds
-[trace] time used in this epoch 0.836625337600708 seconds
-[trace] time used in this epoch 0.835594892501831 seconds
-[trace] time used in this epoch 0.8445849418640137 seconds
-[trace] time used in this epoch 0.8468778133392334 seconds
-[trace] time used in this epoch 0.8318178653717041 seconds
-[trace] time used in this epoch 0.8362171649932861 seconds
-[trace] time used in this epoch 0.8455398082733154 seconds
-[trace] time used in this epoch 0.8471541404724121 seconds
-[trace] time used in this epoch 0.8456010818481445 seconds
-[trace] time used in this epoch 0.8431193828582764 seconds
-[trace] time used in this epoch 0.8477127552032471 seconds
-[trace] time used in this epoch 0.8478572368621826 seconds
-[trace] time used in this epoch 0.8505411148071289 seconds
-[trace] time used in this epoch 0.8466434478759766 seconds
-[trace] time used in this epoch 0.8521182537078857 seconds
-[trace] time used in this epoch 0.8489212989807129 seconds
-[trace] time used in this epoch 0.8492419719696045 seconds
-[trace] time used in this epoch 0.8468213081359863 seconds
-[trace] time used in this epoch 0.8493311405181885 seconds
-[trace] time used in this epoch 0.8476004600524902 seconds
-[trace] time used in this epoch 0.8472318649291992 seconds
-[trace] time used in this epoch 0.8491756916046143 seconds
-[trace] time used in this epoch 0.8470613956451416 seconds
-[trace] time used in this epoch 0.8513932228088379 seconds
-[trace] time used in this epoch 0.854393482208252 seconds
-[trace] time used in this epoch 0.847541332244873 seconds
-[trace] time used in this epoch 0.8486471176147461 seconds
-[trace] time used in this epoch 0.8585419654846191 seconds
-[trace] time used in this epoch 0.8556606769561768 seconds
-[trace] time used in this epoch 0.8518285751342773 seconds
-[trace] time used in this epoch 0.8502476215362549 seconds
-[trace] time used in this epoch 0.8502407073974609 seconds
-[trace] time used in this epoch 0.8505387306213379 seconds
-[trace] time used in this epoch 0.8552377223968506 seconds
-[trace] time used in this epoch 0.8554635047912598 seconds
-[trace] time used in this epoch 0.8525331020355225 seconds
-[trace] time used in this epoch 0.8443222045898438 seconds
-[trace] time used in this epoch 0.8433761596679688 seconds
-[trace] time used in this epoch 0.8507120609283447 seconds
-[trace] time used in this epoch 0.8503575325012207 seconds
-[trace] time used in this epoch 0.8521225452423096 seconds
-[trace] time used in this epoch 0.8556032180786133 seconds
+* Training without AMP = 1.364973166 seconds
+* Training with AMP = 0.8443774253 seconds
+* Improvement: 38.1396% decrease in the running time
 
 Accuracy:
 
-Training without AMP
-Accuracy of the network on the 296 val pairs in F09 : 48 %
-Accuracy of the network on the 296 val pairs in F09 : 55 %
-Accuracy of the network on the 296 val pairs in F09 : 56 %
-Accuracy of the network on the 296 val pairs in F09 : 59 %
-Accuracy of the network on the 296 val pairs in F09 : 56 %
-Accuracy of the network on the 296 val pairs in F09 : 57 %
-Accuracy of the network on the 296 val pairs in F09 : 58 %
-Accuracy of the network on the 296 val pairs in F09 : 60 %
-Accuracy of the network on the 296 val pairs in F09 : 59 %
-Accuracy of the network on the 296 val pairs in F09 : 63 %
-Accuracy of the network on the 296 val pairs in F09 : 61 %
-Accuracy of the network on the 296 val pairs in F09 : 59 %
-Accuracy of the network on the 296 val pairs in F09 : 57 %
-Accuracy of the network on the 296 val pairs in F09 : 61 %
-Accuracy of the network on the 296 val pairs in F09 : 61 %
-Accuracy of the network on the 296 val pairs in F09 : 60 %
-Accuracy of the network on the 296 val pairs in F09 : 59 %
-Accuracy of the network on the 296 val pairs in F09 : 60 %
-Accuracy of the network on the 296 val pairs in F09 : 61 %
-Accuracy of the network on the 296 val pairs in F09 : 57 %
-Accuracy of the network on the 296 val pairs in F09 : 59 %
-Accuracy of the network on the 296 val pairs in F09 : 59 %
-Accuracy of the network on the 296 val pairs in F09 : 59 %
-Accuracy of the network on the 296 val pairs in F09 : 53 %
-Accuracy of the network on the 296 val pairs in F09 : 63 %
-Accuracy of the network on the 296 val pairs in F09 : 60 %
-Accuracy of the network on the 296 val pairs in F09 : 61 %
-Accuracy of the network on the 296 val pairs in F09 : 62 %
-Accuracy of the network on the 296 val pairs in F09 : 59 %
-Accuracy of the network on the 296 val pairs in F09 : 56 %
-Accuracy of the network on the 296 val pairs in F09 : 58 %
-Accuracy of the network on the 296 val pairs in F09 : 56 %
-Accuracy of the network on the 296 val pairs in F09 : 58 %
-Accuracy of the network on the 296 val pairs in F09 : 55 %
-Accuracy of the network on the 296 val pairs in F09 : 58 %
-Accuracy of the network on the 296 val pairs in F09 : 60 %
-Accuracy of the network on the 296 val pairs in F09 : 59 %
-Accuracy of the network on the 296 val pairs in F09 : 60 %
-Accuracy of the network on the 296 val pairs in F09 : 58 %
-Accuracy of the network on the 296 val pairs in F09 : 64 %
-Accuracy of the network on the 296 val pairs in F09 : 57 %
-Accuracy of the network on the 296 val pairs in F09 : 61 %
-Accuracy of the network on the 296 val pairs in F09 : 60 %
-Accuracy of the network on the 296 val pairs in F09 : 60 %
-Accuracy of the network on the 296 val pairs in F09 : 58 %
-Accuracy of the network on the 296 val pairs in F09 : 56 %
-Accuracy of the network on the 296 val pairs in F09 : 55 %
-Accuracy of the network on the 296 val pairs in F09 : 61 %
-Accuracy of the network on the 296 val pairs in F09 : 55 %
-Accuracy of the network on the 296 val pairs in F09 : 59 %
-
-Training with AMP
-Accuracy of the network on the 296 val pairs in F09 : 58 %
-Accuracy of the network on the 296 val pairs in F09 : 58 %
-Accuracy of the network on the 296 val pairs in F09 : 53 %
-Accuracy of the network on the 296 val pairs in F09 : 60 %
-Accuracy of the network on the 296 val pairs in F09 : 54 %
-Accuracy of the network on the 296 val pairs in F09 : 60 %
-Accuracy of the network on the 296 val pairs in F09 : 59 %
-Accuracy of the network on the 296 val pairs in F09 : 62 %
-Accuracy of the network on the 296 val pairs in F09 : 56 %
-Accuracy of the network on the 296 val pairs in F09 : 58 %
-Accuracy of the network on the 296 val pairs in F09 : 60 %
-Accuracy of the network on the 296 val pairs in F09 : 60 %
-Accuracy of the network on the 296 val pairs in F09 : 57 %
-Accuracy of the network on the 296 val pairs in F09 : 60 %
-Accuracy of the network on the 296 val pairs in F09 : 58 %
-Accuracy of the network on the 296 val pairs in F09 : 60 %
-Accuracy of the network on the 296 val pairs in F09 : 64 %
-Accuracy of the network on the 296 val pairs in F09 : 62 %
-Accuracy of the network on the 296 val pairs in F09 : 59 %
-Accuracy of the network on the 296 val pairs in F09 : 61 %
-Accuracy of the network on the 296 val pairs in F09 : 63 %
-Accuracy of the network on the 296 val pairs in F09 : 62 %
-Accuracy of the network on the 296 val pairs in F09 : 61 %
-Accuracy of the network on the 296 val pairs in F09 : 62 %
-Accuracy of the network on the 296 val pairs in F09 : 61 %
-Accuracy of the network on the 296 val pairs in F09 : 61 %
-Accuracy of the network on the 296 val pairs in F09 : 60 %
-Accuracy of the network on the 296 val pairs in F09 : 59 %
-Accuracy of the network on the 296 val pairs in F09 : 58 %
-Accuracy of the network on the 296 val pairs in F09 : 56 %
-Accuracy of the network on the 296 val pairs in F09 : 60 %
-Accuracy of the network on the 296 val pairs in F09 : 55 %
-Accuracy of the network on the 296 val pairs in F09 : 60 %
-Accuracy of the network on the 296 val pairs in F09 : 55 %
-Accuracy of the network on the 296 val pairs in F09 : 56 %
-Accuracy of the network on the 296 val pairs in F09 : 62 %
-Accuracy of the network on the 296 val pairs in F09 : 58 %
-Accuracy of the network on the 296 val pairs in F09 : 56 %
-Accuracy of the network on the 296 val pairs in F09 : 61 %
-Accuracy of the network on the 296 val pairs in F09 : 59 %
-Accuracy of the network on the 296 val pairs in F09 : 56 %
-Accuracy of the network on the 296 val pairs in F09 : 63 %
-Accuracy of the network on the 296 val pairs in F09 : 62 %
-Accuracy of the network on the 296 val pairs in F09 : 61 %
-Accuracy of the network on the 296 val pairs in F09 : 60 %
-Accuracy of the network on the 296 val pairs in F09 : 56 %
-Accuracy of the network on the 296 val pairs in F09 : 62 %
-Accuracy of the network on the 296 val pairs in F09 : 59 %
-Accuracy of the network on the 296 val pairs in F09 : 61 %
-Accuracy of the network on the 296 val pairs in F09 : 59 %
-
+* Training without AMP = 58.52%
+* Training with AMP = 59.26%
 
 ### Export to ONNX file
 
@@ -489,20 +287,10 @@ trtexec --loadEngine=siamese_network.FP32.engine --batch=1024 --streams=32 --ver
 
 ### Accuracy evaluation
 
-```log
-[trace] validate the tensorrt engine file using ../models/classifier-sim.INT8.engine
-[trace] final run loss by TensorRT: 18.15721794217825
-
-[trace] validate the tensorrt engine file using ../models/classifier-sim.FP16.engine
-[trace] final run loss by TensorRT: 18.15721845626831
-
-[trace] validate the tensorrt engine file using ../models/classifier-sim.TF32.engine
-[trace] final run loss by TensorRT: 18.157218277454376
-
-[trace] validate the tensorrt engine file using ../models/classifier-sim.FP32.engine
-[trace] final run loss by TensorRT: 18.157218001782894
-
-```
+* final run loss by classifier-sim.INT8.engine: 18.15721794217825
+* final run loss by classifier-sim.FP16.engine: 18.15721845626831
+* final run loss by classifier-sim.TF32.engine: 18.157218277454376
+* final run loss by classifier-sim.FP32.engine: 18.157218001782894
 
 ### Conclusion:
 

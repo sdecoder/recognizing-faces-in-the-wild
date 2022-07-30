@@ -42,7 +42,6 @@ def _request_server(_data):
   # %% md
   return output
 
-
 def _prepare_data():
   img0_path = './assets/pic1.jpg'
   img1_path = './assets/pic1.jpg'
